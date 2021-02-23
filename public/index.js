@@ -60,7 +60,7 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       const divOuterEle = document.createElement('div');
       const deleteDivEle = document.createElement('div');
 
-      divEle.classList.add('card', 'w-max');
+      divEle.classList.add('card', 'lg:w-max');
 
       const anchorEle = document.createElement('a');
       const link = document.createTextNode(
