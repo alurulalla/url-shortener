@@ -63,11 +63,13 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       divEle.classList.add('card', 'w-max');
 
       const anchorEle = document.createElement('a');
-      const link = document.createTextNode(`http://localhost:5000/${url.id}`);
+      const link = document.createTextNode(
+        `https://url-shortly-murali.herokuapp.com/${url.id}`
+      );
 
       anchorEle.appendChild(link);
-      anchorEle.title = `http://localhost:5000/${url.id}`;
-      anchorEle.href = `http://localhost:5000/api/v1/urls/${url.id}`;
+      anchorEle.title = `https://url-shortly-murali.herokuapp.com/${url.id}`;
+      anchorEle.href = `https://url-shortly-murali.herokuapp.com/api/v1/urls/${url.id}`;
       anchorEle.setAttribute('target', '_blank');
 
       divEle.appendChild(anchorEle);
