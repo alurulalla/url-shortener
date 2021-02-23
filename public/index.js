@@ -55,21 +55,22 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       createURLsList(urlsDataList, false);
     });
   } else if (urlsDataList.length > 0) {
-    urlsDataList.map((url) => {
+    urlsDataList.map((url, i) => {
       const divEle = document.createElement('div');
       const divOuterEle = document.createElement('div');
       const deleteDivEle = document.createElement('div');
+      const previousDivEle = document.createElement('div');
 
-      divEle.classList.add('card', 'lg:w-max');
+      divEle.classList.add('lg:w-max');
 
       const anchorEle = document.createElement('a');
       const link = document.createTextNode(
-        `https://url-shortly-murali.herokuapp.com/${url.id}`
+        `http://tiny-ly.herokuapp.com/${url.id}`
       );
 
       anchorEle.appendChild(link);
-      anchorEle.title = `https://url-shortly-murali.herokuapp.com/${url.id}`;
-      anchorEle.href = `https://url-shortly-murali.herokuapp.com/api/v1/urls/${url.id}`;
+      anchorEle.title = `http://tiny-ly.herokuapp.com/${url.id}`;
+      anchorEle.href = `http://tiny-ly.herokuapp.com/api/v1/urls/${url.id}`;
       anchorEle.setAttribute('target', '_blank');
 
       divEle.appendChild(anchorEle);
@@ -79,7 +80,9 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
         'flex-col',
         'lg:flex-row',
         'items-center',
-        'justify-center'
+        'justify-center',
+        'mb-2',
+        'card'
       );
       deleteDivEle.innerText = 'Delete';
       deleteDivEle.classList.add(
@@ -102,8 +105,11 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
 
       urlListElement.appendChild(divOuterEle);
 
-      const nextEle = document.createElement('br');
-      urlListElement.appendChild(nextEle);
+      if (i === 0) {
+        urlListElement.appendChild(previousDivEle);
+        previousDivEle.classList.add('text-gray-600', 'my-2');
+        previousDivEle.innerText = 'Previous URL Shorteners';
+      }
 
       urlListElement.classList.add(
         'flex',
