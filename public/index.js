@@ -73,29 +73,70 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       const divOuterEle = document.createElement('div');
       const deleteDivEle = document.createElement('div');
       const previousDivEle = document.createElement('div');
+      const shortParaEle = document.createElement('p');
+      const longParaEle = document.createElement('p');
 
-      divEle.classList.add('lg:w-max');
+      divEle.classList.add(
+        'lg:w-max',
+        'flex',
+        'flex-col',
+        'items-start',
+        'flex-1'
+      );
 
       const anchorEle = document.createElement('a');
-      const link = document.createTextNode(
-        `http://tiny-ly.herokuapp.com/${url.id}`
-      );
+      const longAnchorEle = document.createElement('a');
+
+      shortParaEle.innerHTML = 'Short URL';
+      longParaEle.innerHTML = 'Long URL';
+
+      // add styles to paragraphs
+      shortParaEle.classList.add('text-sm', 'text-gray-600');
+      longParaEle.classList.add('text-sm', 'text-gray-600');
+
+      const link = document.createTextNode(`${url.id}`);
+      const longLink = document.createTextNode(`${url.long_url}`);
 
       anchorEle.appendChild(link);
       anchorEle.title = `http://tiny-ly.herokuapp.com/${url.id}`;
       anchorEle.href = `http://tiny-ly.herokuapp.com/api/v1/urls/${url.id}`;
       anchorEle.setAttribute('target', '_blank');
+      anchorEle.classList.add(
+        'text-left',
+        'text-sm',
+        'lg:text-md',
+        'break-all'
+      );
 
+      // add short url paragraph
+      divEle.appendChild(shortParaEle);
       divEle.appendChild(anchorEle);
+
+      // long url details
+      longAnchorEle.title = `http://tiny-ly.herokuapp.com/${url.id}`;
+      longAnchorEle.href = `http://tiny-ly.herokuapp.com/api/v1/urls/${url.id}`;
+      longAnchorEle.setAttribute('target', '_blank');
+      longAnchorEle.classList.add(
+        'text-left',
+        'text-sm',
+        'lg:text-md',
+        'break-all'
+      );
+
+      longAnchorEle.appendChild(longLink);
+      divEle.appendChild(longParaEle);
+      divEle.appendChild(longAnchorEle);
+
       divEle.classList.add('lg:mr-10');
       divOuterEle.classList.add(
         'flex',
         'flex-col',
         'lg:flex-row',
-        'items-center',
+        'lg:items-center',
         'justify-center',
         'mb-2',
-        'card'
+        'card',
+        'w-full'
       );
       deleteDivEle.innerText = 'Delete';
       deleteDivEle.classList.add(
