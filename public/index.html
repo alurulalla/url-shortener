@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./index.js" defer></script>
+    <title>URL Shortly</title>
+</head>
+<body class="text-gray-600 font-mono bg-gray-200">
+    <nav class="h-16 flex justify-center items-center bg-white border-t-8 shadow-lg border-primary">
+        <a href="/" class="text-2xl m-4">URL Shortly</a>
+    </nav>
+    <section>
+        <div class="flex flex-col justify-center items-center mb-10">
+            <h1 class="p-8 text-2xl lg:text-5xl text-center">Having a longgggggggg url ?</h1>
+            <h2 class="text-lg lg:text-xl text-center">Shorten your url with just one click</h2>
+        </div>
+        <div class="py-2 px-8">
+            <div class="flex flex-col lg:flex-row justify-center items-center">
+                <input type="text" placeholder="Enter URL" id='urlValue' 
+                class="border border-gray-300 w-70 lg:w-160 p-1 rounded hover:border-gray-900 focus:outline-none mb-5 lg:mb-0"/>
+                <button class="ml-2 transition duration-500 ease-out border-2 text-primary btn border-primary hover:bg-primary hover:text-white focus:outline-none" id="submit">Submit</button>
+            </div>
+        </div>
+
+        <h3 class="text-center text-md lg:text-lg py-2">URL Shorteners</h3>
+       
+        <div class="py-2 px-8 text-center text-green-500 max-h-4 mx-8">
+            <div id='url-list'>
+
+            </div>
+        </div>
+    </section>
+</body>
+</html>
