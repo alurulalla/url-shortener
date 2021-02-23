@@ -73,10 +73,11 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       anchorEle.setAttribute('target', '_blank');
 
       divEle.appendChild(anchorEle);
-      divEle.classList.add('mr-10');
+      divEle.classList.add('lg:mr-10');
       divOuterEle.classList.add(
-        'block',
-        'lg:flex',
+        'flex',
+        'flex-col',
+        'lg:flex-row',
         'items-center',
         'justify-center'
       );
