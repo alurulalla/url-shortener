@@ -72,6 +72,8 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       const divEle = document.createElement('div');
       const divOuterEle = document.createElement('div');
       const deleteDivEle = document.createElement('div');
+      const buttonWrapDivEle = document.createElement('div');
+      const copyDivEle = document.createElement('div');
       const previousDivEle = document.createElement('div');
       const shortParaEle = document.createElement('p');
       const longParaEle = document.createElement('p');
@@ -98,8 +100,8 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       const longLink = document.createTextNode(`${url.long_url}`);
 
       anchorEle.appendChild(link);
-      anchorEle.title = `http://tiny-ly.herokuapp.com/${url.id}`;
-      anchorEle.href = `http://tiny-ly.herokuapp.com/api/v1/urls/${url.id}`;
+      anchorEle.title = `${window.location.origin}/${url.id}`;
+      anchorEle.href = `${window.location.origin}/api/v1/urls/${url.id}`;
       anchorEle.setAttribute('target', '_blank');
       anchorEle.classList.add(
         'text-left',
@@ -113,8 +115,8 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       divEle.appendChild(anchorEle);
 
       // long url details
-      longAnchorEle.title = `http://tiny-ly.herokuapp.com/${url.id}`;
-      longAnchorEle.href = `http://tiny-ly.herokuapp.com/api/v1/urls/${url.id}`;
+      longAnchorEle.title = `${window.location.origin}/${url.id}`;
+      longAnchorEle.href = `${window.location.origin}/api/v1/urls/${url.id}`;
       longAnchorEle.setAttribute('target', '_blank');
       longAnchorEle.classList.add(
         'text-left',
@@ -139,8 +141,20 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
         'w-full'
       );
       deleteDivEle.innerText = 'Delete';
+      copyDivEle.innerText = 'Copy';
       deleteDivEle.classList.add(
         'bg-red-500',
+        'text-white',
+        'border',
+        'rounded',
+        'w-20',
+        'cursor-pointer',
+        'mt-2',
+        'lg:mt-0',
+        'block'
+      );
+      copyDivEle.classList.add(
+        'bg-blue-500',
         'text-white',
         'border',
         'rounded',
@@ -153,9 +167,29 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       deleteDivEle.onclick = function () {
         deleteURL(`${url.id}`);
       };
+      copyDivEle.setAttribute('id', `${url.id}`);
+      copyDivEle.onclick = function () {
+        navigator.clipboard
+          .writeText(`${window.location.origin}/api/v1/urls/${url.id}`)
+          .catch(() => {
+            console.error('Async: Could not copy text: ');
+          });
+      };
 
       divOuterEle.appendChild(divEle);
-      if (!isFetchRequired) divOuterEle.appendChild(deleteDivEle);
+      buttonWrapDivEle.classList.add(
+        'flex',
+        'lg:flex-col',
+        'justify-center',
+        'items-center'
+      );
+      if (!isFetchRequired) {
+        buttonWrapDivEle.appendChild(copyDivEle);
+        buttonWrapDivEle.appendChild(deleteDivEle);
+        // divOuterEle.appendChild(deleteDivEle);
+        // divOuterEle.appendChild(copyDivEle);
+        divOuterEle.appendChild(buttonWrapDivEle);
+      }
 
       if (isNewlyCreated) urlListElement.appendChild(divOuterEle);
 
