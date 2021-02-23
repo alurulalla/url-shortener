@@ -1,7 +1,12 @@
 const inputElementValue = document.getElementById('urlValue');
 const urlListElement = document.getElementById('url-list');
 const buttonElement = document.getElementById('submit');
-const deleteUrlElement = document.getElementById('');
+const currentURLElement = document.getElementById('currentURL');
+
+let isNewlyCreated = false;
+let currentUrlID = '';
+let isCurrentUrlDeleted = false;
+let previousCurrentUrlID = '';
 
 buttonElement.addEventListener('click', () => {
   const inputValue = inputElementValue.value;
@@ -13,6 +18,10 @@ const deleteURL = async (id) => {
   if (id) {
     await fetch(`/api/v1/urls/${id}`, { method: 'DELETE' });
     createURLsList([], true);
+    if (id === currentUrlID) {
+      isCurrentUrlDeleted = true;
+      isNewlyCreated = false;
+    }
   }
 };
 
@@ -36,6 +45,8 @@ const createURLShortener = async (long_url) => {
     };
     await fetch('/api/v1/urls', postData);
     createURLsList([], true);
+    isNewlyCreated = true;
+    isCurrentUrlDeleted = false;
   }
 };
 
@@ -52,6 +63,8 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
     let urlsDataList = [];
     getURLsData().then((data) => {
       urlsDataList = data;
+      previousCurrentUrlID = currentUrlID;
+      if (urlsDataList.length > 0) currentUrlID = urlsDataList[0].id;
       createURLsList(urlsDataList, false);
     });
   } else if (urlsDataList.length > 0) {
@@ -101,15 +114,17 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       };
 
       divOuterEle.appendChild(divEle);
-      if (i !== 0) divOuterEle.appendChild(deleteDivEle);
+      if (!isFetchRequired) divOuterEle.appendChild(deleteDivEle);
 
-      urlListElement.appendChild(divOuterEle);
+      if (isNewlyCreated) urlListElement.appendChild(divOuterEle);
 
-      if (i === 0 && urlsDataList.length > 1) {
-        urlListElement.appendChild(previousDivEle);
-        previousDivEle.classList.add('text-gray-600', 'my-2');
-        previousDivEle.innerText = 'Previous URL Shorteners';
+      if (i === 0 && (urlsDataList.length > 1 || !isNewlyCreated)) {
+        appendPreviousElement(previousDivEle);
       }
+
+      // if(i === 0 &&)
+
+      if (!isNewlyCreated) urlListElement.appendChild(divOuterEle);
 
       urlListElement.classList.add(
         'flex',
@@ -119,6 +134,7 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       );
     });
   }
+  isURLsAvailable(urlsDataList.length);
 };
 
 const deleteChildNodes = () => {
@@ -127,4 +143,18 @@ const deleteChildNodes = () => {
     urlListElement.removeChild(child);
     child = urlListElement.lastElementChild;
   }
+};
+
+const isURLsAvailable = (urlList) => {
+  if (urlList && isNewlyCreated && !isCurrentUrlDeleted) {
+    currentURLElement.innerText = 'Current Shorten URL';
+  } else {
+    currentURLElement.innerText = '';
+  }
+};
+
+const appendPreviousElement = (previousDivEle) => {
+  urlListElement.appendChild(previousDivEle);
+  previousDivEle.classList.add('text-gray-600', 'my-2');
+  previousDivEle.innerText = 'Previous URL Shorteners';
 };
