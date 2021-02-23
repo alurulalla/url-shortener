@@ -101,11 +101,11 @@ const createURLsList = (urlsDataList, isFetchRequired) => {
       };
 
       divOuterEle.appendChild(divEle);
-      divOuterEle.appendChild(deleteDivEle);
+      if (i !== 0) divOuterEle.appendChild(deleteDivEle);
 
       urlListElement.appendChild(divOuterEle);
 
-      if (i === 0) {
+      if (i === 0 && urlsDataList.length > 1) {
         urlListElement.appendChild(previousDivEle);
         previousDivEle.classList.add('text-gray-600', 'my-2');
         previousDivEle.innerText = 'Previous URL Shorteners';
